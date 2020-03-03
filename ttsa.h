@@ -32,6 +32,7 @@ class TTSA{
     int *get_S();
     int get_n();
     int get_runs();
+    void reset_S();
 
     private:
     
@@ -40,7 +41,6 @@ class TTSA{
     float start_T;
 }; // Class TTSA ends
 
-// template <typename T>
 void remove_from_vector(std::vector<std::tuple<int, int> > & , std::tuple<int, int>);
 
 // template int remove_from_vector(std::vector<std::tuple<int, int> > &, std::tuple<int, int> &);

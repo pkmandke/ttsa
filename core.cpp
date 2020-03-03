@@ -19,6 +19,17 @@ nttsa::TTSA::TTSA(int n, int allocate_memory){
 
     if(allocate_memory)
         this->allocate_mem();
+
+    this->reset_S();
+}
+
+void nttsa::TTSA::reset_S(){
+    
+    int i = 1, j = 1;
+
+    for(;i <= n; i++)
+    for(;j <= runs; j++)
+        S[j + i * n] = 0;
 }
 
 void nttsa::TTSA::allocate_mem(){

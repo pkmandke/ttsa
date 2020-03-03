@@ -42,6 +42,8 @@ void nttsa::TTSA::randomSchedule(){
         cout << get<0>(Q[k]) << " " << get<1>(Q[k]) << endl; // cout << "Created Q. Now calling generatesched " << Q.size() << endl;
         k++;
     }
+
+    srand ( unsigned ( std::time(0) ) );
     // exit(0);
     this->generateSchedule(Q, S);
 }
@@ -53,41 +55,93 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
     // cout << "Inside GS " << Q.size() << endl;
     
     if(Q.size() == 0) return true; // If Q is empty return true.
-    //cout << "Q size is " << Q.size() << endl;
+    cout << "Q size is " << Q.size() << endl;
     std::sort(Q.begin(), Q.end(), tuple_compare);
+    int j, i, c, k = 0; 
+    for(k = 0; j < Q.size(); k++) cout << get<0>(Q[k]) << " " << get<1>(Q[k]) << endl; // cout << "Created Q. Now calling generatesched " << Q.size() << endl;
+    
     int t = get<0>(Q[0]), w = get<1>(Q[0]); // Store the lexicographically minimum <t, w> pair. where t is the team id and w is the week id or run id (both 1-indexed).
-    //cout << "t and w are " << t << " " << w << endl;
-    int *choices = (int *)malloc((2 * n - 1) * sizeof(int)); // Do not use choices[0]
+    cout << "t and w are " << t << " " << w << endl;
+    int *choices = (int *)malloc((2 * n - 2) * sizeof(int)); // Do not use choices[0]
     int n_2 = 2 * n;
 
-    int i = 1, c = 1; // Populate choices.
-    while(i <= (n_2 - 2)){
+    i = 0;
+    c = 1; // Populate choices.
+    while(i < (n_2 - 2)){
         if(c != t){
            choices[i++] = c;
            choices[i++] = -c;
         }
         c++;
     }
-    srand ( unsigned ( std::time(0) ) );
-    random_shuffle(&choices[1], &choices[n_2 - 2], myrandom); // Shuffle choices
-    // cout << "Shuffled choices." << endl;
+    
+    //cout << "Choices. " << endl;
+    //for(i = 0; i < (n_2 - 2); i++) cout << choices[i] << " ";
+    //cout << endl;
+    //cout << std::uniform_int_distribution<int>(0,2000) << endl; 
+    // srand ( unsigned ( std::uniform_int_distribution<int>(0,2000) ) );
+    random_shuffle(&choices[0], &choices[n_2 - 3], myrandom); // Shuffle choices
+    //cout << "Shuffled choices. " << endl;
+    //for(i = 0; i < (n_2 - 2); i++) cout << choices[i] << " ";
+    //cout << endl;
+    
     for(i = 1; i <= (n_2 - 2); i++){
-        int o = choices[i];
+        int o = choices[i - 1];
         tuple<int, int> o_w = make_tuple(abs(o), w);
         vector<tuple<int, int> >::iterator finder = find(Q.begin(), Q.end(), o_w);
+        cout << "Loop with t w o " << t << " " << w << " " << o << endl;
         // cout << "Finder returned " << o << " " << w << endl;
-        if(finder == Q.end()){ // Element <o, w> not in Q
+        if(finder != Q.end()){ // Element <o, w> not in Q
+            cout << "And not found" << endl;
+            // Check to see if the selected opponent o is not already assigned in week w,
+            bool isPresent = false;
+            for(j = 1; j <= runs; j++)
+            if(S[j + abs(t) * n] == o){
+                isPresent = true;
+                break;
+            }
 
-            S[w + abs(t) * n] = o; // S[t, w] = o
+            if(!isPresent)
+                S[w + abs(t) * n] = o; // S[t, w] = o
+            else continue;
+            
+            if(o > 0){ // If it is team o's home then assign team t as away in the schedule of team o
+                isPresent = false;
+                for(j = 1; j <= runs; j++)
+                if(S[j + o * n] == (-1 * t)){ // team t has already been assigned in o's schedule as away in some round.
+                    isPresent = true;
+                    break;
+                }
 
-            if(o > 0) S[w + o * n] = -t;
-            else S[w + (-1 * o * n)] = t; // If t is playing with o at o's home, then S[o, w] must be positive.
+                if(!isPresent)
+                    S[w + o * n] = -t;
+                else continue;
+            } // if(o > 0) ends
+            else{ // If it is team o's away, then assign t in o's schedule as home
+                isPresent = false;
+                for(j = 1; j <= runs; j++)
+                if(S[j + abs(o) * n] == t){ // Team t has already been assigned in some other slot to play with o. Skip assigning again.
+                    isPresent = true;
+                    break;
+                }
+                
+                if(!isPresent)
+                    S[w + (abs(o) * n)] = t; // If t is playing with o at o's home, then S[o, w] must be positive.
+                else continue;
+            }
+
+            // If the team o was alloted in team t's schedule (iff it wasn't already present) recursively try other combinations.
+            
             // cout << "Q before " << Q.size() << endl;       
-            if(o < 0) o = o * -1;
             remove_from_vector(Q, make_tuple(t, w)); // Remove this tuple from the vector
-            remove_from_vector(Q, make_tuple(o, w));
+            remove_from_vector(Q, make_tuple(abs(o), w));
+            cout << "Removed (" << t << "," << w << ") and (" << abs(o) << "," << w << ")." << endl;
             //remove_from_vector(Q, make_tuple(-o, w));
-            // cout << "Q after removal " << Q.size() << endl;
+            cout << "Q after removal " << Q.size() << endl;
+            k = 0;
+            for(k = 0; k < Q.size(); k++){
+                cout << get<0>(Q[k]) << " " << get<1>(Q[k]) << endl; // cout << "Created Q. Now calling generatesched " << Q.size() << endl;
+            }
             // exit(0);
             if(generateSchedule(Q, S)){
                 free(choices);
@@ -96,7 +150,7 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
         } // finder if ends
     } // Main for ends
 
-
+    cout << "Breaking for t w " << t << " " << w << endl;
     free(choices);
     return false;
 }
