@@ -29,7 +29,7 @@ void nttsa::TTSA::reset_S(){
 
     for(;i <= n; i++)
     for(;j <= runs; j++)
-        S[j + i * n] = 0;
+        S[j + i * runs] = 0;
 }
 
 void nttsa::TTSA::allocate_mem(){

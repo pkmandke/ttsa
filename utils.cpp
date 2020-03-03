@@ -15,7 +15,7 @@ void nttsa::display_S(int *S, int n, int runs){
 
     for(i = 1; i <= n; i++){
         for(j = 1; j <= runs; j++)
-            std::cout << S[j + i * n] << "    ";
+            std::cout << S[j + i * runs] << "    ";
         std::cout << std::endl;
     }
 }
