@@ -46,6 +46,8 @@ void remove_from_vector(std::vector<std::tuple<int, int> > & , std::tuple<int, i
 // template int remove_from_vector(std::vector<std::tuple<int, int> > &, std::tuple<int, int> &);
 
 void display_S(int *, int, int);
-
+void swapInts(int *, int *);
+int sign_of(int);
+int find_pos(int *, int, int);
 }
 #endif
