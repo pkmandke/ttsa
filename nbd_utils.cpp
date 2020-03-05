@@ -27,8 +27,8 @@ void nttsa::TTSA::swapHomes(int *Sch, int i, int j){
     int run, updates = 0; // Updates can be used for minor optimization by avoiding traversing all rounds/runs when all 4 updates are done.
 
     for(run = 1; run <= this->runs; run++){
-        if(abs(Sch[run + i * this->runs]) == abs(j)) Sch[run + i * runs] = -1 * j;
-        if(abs(Sch[run + j * this->runs]) == abs(i)) Sch[run + j * runs] = -1 * i;
+        if(abs(Sch[run + i * this->runs]) == abs(j)) Sch[run + i * runs] = -1 * Sch[run + i * runs];
+        if(abs(Sch[run + j * this->runs]) == abs(i)) Sch[run + j * runs] = -1 * Sch[run + j * runs];
     }
 }
 
@@ -88,7 +88,8 @@ void nttsa::TTSA::partialSwapRounds(int *Sch, int ti, int rk, int rl){
     new_push = 0; // Newly pushed teams to be swapped
     for(i = 0; i < last_pushed; i++){ // Swap the teams pushed in the last round.
         
-        cur_swap = to_swap.pop_back(); // Get a team to swap
+        cur_swap = to_swap.back(); // Get a team to swap
+        to_swap.pop_back();
         prev_teams[ptr++] = cur_swap; // Set it to be swapped
 
         nttsa::swapInts(&Sch[rk + cur_swap * runs], &Sch[rl + cur_swap * runs]); // Swap schedule of current team
@@ -109,23 +110,24 @@ void nttsa::TTSA::partialSwapRounds(int *Sch, int ti, int rk, int rl){
     free(prev_teams);
 }
 
-void nttsa::TTSA::partialSwapRounds(int *Sch, ti, tj, int r){
+void nttsa::TTSA::partialSwapTeams(int *Sch, int ti, int tj, int r){
 /* 
  * Swap team ti with team tj for round r.
  */
 
-    int *swapd_rnds = (int *)malloc(n * sizeof(int));
+    int *swapd_teams = (int *)malloc(n * sizeof(int));
     vector<int> to_swap; // Teams to swap
     int next_rnd = r; // Next round to swap.
 
     to_swap.push_back(r);
     int ptr = 0, i;
 
-    for(i = 0; i < n; i++) swapd_rnds[i] = 0;
+    for(i = 0; i < n; i++) swapd_teams[i] = 0;
     
     while(to_swap.size()){
         
-        next_rnd = to_swap.pop();
+        next_rnd = to_swap.back();
+        to_swap.pop_back();
         int find_before_swap = Sch[next_rnd + tj * runs];
         
         swapd_teams[ptr++] = Sch[next_rnd + ti * runs];

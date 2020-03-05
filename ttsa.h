@@ -29,6 +29,12 @@ class TTSA{
     bool generateSchedule(std::vector<std::tuple<int, int> > , int *);
     void randomSchedule();
     
+    void swapHomes(int *, int, int);
+    void swapTeams(int *, int, int );
+    void swapRounds(int *, int, int);
+    void partialSwapRounds(int*, int, int, int);
+    void partialSwapTeams(int *, int, int, int);
+
     int *get_S();
     int get_n();
     int get_runs();
