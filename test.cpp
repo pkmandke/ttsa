@@ -34,7 +34,9 @@ void test_nbd_utils(nttsa::TTSA &t_obj){
 
     re_init(Sch, S, t_obj.get_n(), t_obj.get_runs());
 
-    t_obj.swapHomes(Sch, 1, 2);
+    //t_obj.swapHomes(Sch, 1, 2);
+    // t_obj.swapRounds(Sch, 2, 5);
+    t_obj.swapTeams(Sch, 2, 3);
     cout << "Swapping homes of team 1 and 2" << endl;
     nttsa::display_S(Sch, t_obj.get_n(), t_obj.get_runs());
 
