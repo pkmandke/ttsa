@@ -149,6 +149,17 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
     return false;
 }
 
+void nttsa::TTSA::init_S_from_file(ifstream fin){
+    int i, j;
+    char ch;
+
+    for(i = 1; i <= n; i++)
+    for(j = 1; j <= runs && fin.get(ch); j++){
+        S[j + i * runs] = atoi(ch);
+        fin.get(ch); // read newline or space
+    }
+}
+
 int *nttsa::TTSA::get_S(){
 
     return this->S;

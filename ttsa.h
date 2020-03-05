@@ -10,6 +10,7 @@
 #ifndef TTSA_H_
 #define TTSA_H_
 
+#include <iostream>
 #include <cstdbool>
 #include <vector>
 #include <tuple>
@@ -28,7 +29,7 @@ class TTSA{
     void train(float T);
     bool generateSchedule(std::vector<std::tuple<int, int> > , int *);
     void randomSchedule();
-    
+    void init_S_from_file(std::ifstream); 
     void swapHomes(int *, int, int);
     void swapTeams(int *, int, int );
     void swapRounds(int *, int, int);
