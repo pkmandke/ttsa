@@ -9,7 +9,6 @@
 
 #include "ttsa.h"
 
-void nttsa::TTSA::init_S_from_file(ifstream fin);
 void nttsa::display_S(int *S, int n, int runs){
 
     int i, j;

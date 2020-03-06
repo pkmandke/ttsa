@@ -130,17 +130,16 @@ void nttsa::TTSA::partialSwapTeams(int *Sch, int ti, int tj, int r){
         to_swap.pop_back();
         int find_before_swap = Sch[next_rnd + tj * runs];
         
-        swapd_teams[ptr++] = Sch[next_rnd + ti * runs];
+        swapd_teams[ptr++] = abs(Sch[next_rnd + ti * runs]);
         int nxt = nttsa::find_pos(swapd_teams, n, abs(Sch[next_rnd + tj * runs])); 
-        if(nxt != -1){
+        if(nxt == -1){
             for(i = 1; i <= runs; i++)
-            if(Sch[i + tj * runs] == Sch[next_rnd + tj * runs])
+            if(Sch[i + ti * runs] == Sch[next_rnd + tj * runs])
                 to_swap.push_back(i);
         }
         
         nttsa::swapInts(&Sch[next_rnd + ti * runs], &Sch[next_rnd + tj * runs]); // Swap
-        nttsa::swapInts(&Sch[next_rnd + abs(Sch[ti + next_rnd * runs]) * runs], &Sch[next_rnd + abs(Sch[tj + next_rnd * runs]) * runs]); // Swap the correspoinding teams as well.
-        
+        nttsa::swapInts(&Sch[next_rnd + abs(Sch[next_rnd + ti * runs]) * runs], &Sch[next_rnd + abs(Sch[next_rnd + tj * runs]) * runs]); // Swap the correspoinding teams as well.
     } // while ends       
         
 }
