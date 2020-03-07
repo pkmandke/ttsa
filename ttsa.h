@@ -26,26 +26,39 @@ class TTSA{
     ~TTSA();
     void allocate_mem();
     
+    // Core
     void train(float T);
     bool generateSchedule(std::vector<std::tuple<int, int> > , int *);
     void randomSchedule();
     void init_S_from_file(std::ifstream &); 
+    void init_D_from_file(std::ifstream &);
+
+    // Neighborhood exploration utlities
     void swapHomes(int *, int, int);
     void swapTeams(int *, int, int );
     void swapRounds(int *, int, int);
     void partialSwapRounds(int*, int, int, int);
     void partialSwapTeams(int *, int, int, int);
-
+    
+    // Constraints and feasibility
+    bool isAtmost(int *);
+    bool isNorepeat(int *);
+    bool isFeasible(int *);
+    
+    // Getter setter and misc utils
     int *get_S();
     int get_n();
     int get_runs();
     void reset_S();
+    int *get_dist();
+    void reset_dist();
 
     private:
     
-    int *S;
-    int n, runs;
-    float start_T;
+    int *S; // Current Schedule
+    int *dist; // Distance matrix
+    int n, runs; // n is the # of teams and runs are total rounds = 2 * n - 2
+    float start_T; // initial temperature
 }; // Class TTSA ends
 
 void remove_from_vector(std::vector<std::tuple<int, int> > & , std::tuple<int, int>);
@@ -53,6 +66,7 @@ void remove_from_vector(std::vector<std::tuple<int, int> > & , std::tuple<int, i
 // template int remove_from_vector(std::vector<std::tuple<int, int> > &, std::tuple<int, int> &);
 
 void display_S(int *, int, int);
+void display_D(int *, int); // Display the distance matrix
 void swapInts(int *, int *);
 int sign_of(int);
 int find_pos(int *, int, int);

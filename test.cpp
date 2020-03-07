@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdbool>
 
 #include "ttsa.h"
 
@@ -44,6 +45,26 @@ void test_nbd_utils(nttsa::TTSA &t_obj){
 
 }
 
+void test_constraints(nttsa::TTSA &t_obj){
+    if(t_obj.isAtmost(t_obj.get_S())) cout << "Atmost constraint satisfied." << endl;
+    else cout << "Atmost constraint not satisfied." << endl;
+    
+    if(t_obj.isNorepeat(t_obj.get_S())) cout << "No repeat constraint satisfied." << endl;
+    else cout << "No repeat constraint not satisfied." << endl;
+    
+    if(t_obj.isFeasible(t_obj.get_S())) cout << "Feasible." << endl;
+    else cout << "Not feasible." << endl;
+}
+
+void test_init_D(nttsa::TTSA &t_obj){
+    
+    ifstream f;
+    f.open("./dist/test_distance_4.txt");
+
+    t_obj.init_D_from_file(f);
+    nttsa::display_D(t_obj.get_dist(), t_obj.get_n());
+}
+
 int main(int argc, char *argv[]){
     
     nttsa::TTSA t_obj(6, 1);
@@ -54,6 +75,9 @@ int main(int argc, char *argv[]){
     f.open("./schedules/sched_pSwaprounds.txt");
     t_obj.init_S_from_file(f);
     nttsa::display_S(t_obj.get_S(), t_obj.get_n(), t_obj.get_runs());
-    test_nbd_utils(t_obj);
+    //test_nbd_utils(t_obj);
+    //
+    // test_init_D(t_obj);
+    // test_constraints(t_obj);
     return 0;
 }

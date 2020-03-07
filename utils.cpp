@@ -20,6 +20,17 @@ void nttsa::display_S(int *S, int n, int runs){
     }
 }
 
+void nttsa::display_D(int *d, int n){
+
+    int i, j;
+
+    for(i = 1; i <= n; i++){
+        for(j = 1; j <= n; j++)
+            std::cout << d[j + i * n] << "   ";
+        std::cout << std::endl;
+    }
+}
+
 void nttsa::remove_from_vector(std::vector<std::tuple<int, int> > & Q, std::tuple<int, int> pair){
    int i;
     // std::cout << "Pair is " << std::get<0>(pair) << " " << std::get<1>(pair) << std::endl;
