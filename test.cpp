@@ -14,7 +14,7 @@ void test_randomSchedule(nttsa::TTSA &t_obj){
 
     t_obj.randomSchedule();
 
-    cout << "S matrix after initialization is " << endl;
+    cout << "S matrix after random initialization is " << endl;
     nttsa::display_S(t_obj.get_S(), t_obj.get_n(), t_obj.get_runs());
 }
 
@@ -62,21 +62,29 @@ void test_init_D(nttsa::TTSA &t_obj){
     f.open("./dist/test_distance_4.txt");
 
     t_obj.init_D_from_file(f);
+    cout << "Distance matrix is: " << std::endl;
+    
     nttsa::display_D(t_obj.get_dist(), t_obj.get_n());
+}
+
+void test_cost(nttsa::TTSA &t){
+    test_randomSchedule(t);
+    test_init_D(t);
+    cout << "Cost = " << t.get_cost(t.get_S()) << std::endl;
 }
 
 int main(int argc, char *argv[]){
     
-    nttsa::TTSA t_obj(6, 1);
+    nttsa::TTSA t_obj(4, 1);
     cout << "Object created " << endl;
     // test_randomSchedule(t_obj);
     
-    ifstream f;
-    f.open("./schedules/sched_pSwaprounds.txt");
-    t_obj.init_S_from_file(f);
-    nttsa::display_S(t_obj.get_S(), t_obj.get_n(), t_obj.get_runs());
+    //ifstream f;
+    // f.open("./schedules/sched_pSwaprounds.txt");
+    // t_obj.init_S_from_file(f);
+    // nttsa::display_S(t_obj.get_S(), t_obj.get_n(), t_obj.get_runs());
     //test_nbd_utils(t_obj);
-    //
+    test_cost(t_obj);
     // test_init_D(t_obj);
     // test_constraints(t_obj);
     return 0;

@@ -13,6 +13,7 @@
 #include <bits/stdc++.h>
 #include <algorithm>
 #include <ctime>
+#include <cmath>
 
 #include "ttsa.h"
 
@@ -149,9 +150,80 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
     return false;
 }
 
+int nttsa::TTSA::nbv(int *Sch){
+/*
+ * Computes the number of atmost and no-repeat constraints in given schedule.
+ */
+
+    int num_v = 0; // Number of violations
+
+    // Compute atmost constraint violations.
+
+    int tm, rnd, h, w;
+
+    for(tm = 1; tm <= n; tm++){
+        h = 0;
+        w = 0;
+        if(nttsa::sign_of(Sch[1 + tm * runs]) == -1) w = 1; // First game is away
+        else h = 1; // First game is home
+
+        for(rnd = 2; rnd <= runs; rnd++){
+            if(nttsa::sign_of(Sch[rnd + tm * runs]) == nttsa::sign_of(Sch[rnd - 1 + tm * runs])){ // two consecutive home/away games found
+                if(nttsa::sign_of(Sch[rnd + tm * runs]) == -1) w += 1;
+                else h += 1;
+            }
+            else{
+                if(nttsa::sign_of(Sch[rnd + tm * runs]) == -1){
+                    h = 0; // If two consec games are on not same h/w, then set home counter to zer id current game is away
+                    w = 1;
+                }
+                else{
+                    w = 0;
+                    h = 1;
+                }
+            }
+            if(h >= 3 || w >= 3) num_v += 1;
+        }
+    }
+
+    // Compute number of no-repeat violations.
+
+    for(tm = 1; tm <= n; tm++)
+    for(rnd = 2; rnd <= runs; rnd++)
+        if(abs(Sch[rnd - 1 + tm * runs]) == abs(Sch[rnd + tm * runs])) num_v += 1;
+    
+    return num_v;
+}
+
+
+float nttsa::TTSA::get_cost(int *Sch){
+/* 
+ * Return the (modified) cost C(S) for the given schedule.
+ */
+  int tm, rnd, tot_cost = 0;
+
+  for(tm = 1; tm <= n; tm++){
+    if(nttsa::sign_of(Sch[1 + tm * runs]) == -1) // If the first game is away add the distance from home
+        tot_cost += dist[tm + abs(Sch[1 + tm * runs]) * n];
+    for(rnd = 2; rnd <= runs; rnd++)
+        if((nttsa::sign_of(Sch[rnd - 1 + tm * runs]) == -1) && (nttsa::sign_of(Sch[rnd + tm * runs]) == -1)) // If both previous and current games are away
+            tot_cost += dist[abs(Sch[rnd - 1 + tm * runs]) + abs(Sch[rnd + tm * runs]) * n];
+        else if(nttsa::sign_of(Sch[rnd - 1 + tm * runs]) == -1)
+            tot_cost += dist[abs(Sch[rnd - 1 + tm * runs]) + tm * n];
+        else if(nttsa::sign_of(Sch[rnd + tm * runs]) == -1)
+            tot_cost += dist[abs(Sch[rnd + tm * runs]) + tm * n];
+    if(nttsa::sign_of(Sch[runs + tm * runs]) == -1) tot_cost += dist[tm + abs(Sch[runs + tm * runs]) * n]; // If last game for this team is away, then compute distance to home.
+  }
+
+  if(isFeasible(Sch)) return (float)tot_cost;
+
+  return sqrt(pow(tot_cost, 2.0) + pow(this->w * nttsa::f_func(nbv(Sch)), 2.0));
+}
+
+
 bool nttsa::TTSA::isAtmost(int *Sch){
 /* 
- * This method returns true if the atmost constraint is satisfied.
+ * This method returns true iff the atmost constraint is satisfied.
  */
     int tm, rnd, h, w;
 
@@ -237,8 +309,6 @@ void nttsa::TTSA::init_D_from_file(ifstream &fin){
             num.push_back(ch);
         }
         if(num.size()){
-            for(int k = 0; k < num.size(); k++) cout << num[k] << "  ";
-            std::cout << std::endl;
             dist[j + i * n] = std::stoi(std::string(num.begin(), num.end())); // Read number and convert to int
         }
     }

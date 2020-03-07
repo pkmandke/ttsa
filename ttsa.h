@@ -5,6 +5,7 @@
  * Author: Prathamesh Mandke
  *
  * Date created: 02/29/2020
+ *
  */
 
 #ifndef TTSA_H_
@@ -32,6 +33,8 @@ class TTSA{
     void randomSchedule();
     void init_S_from_file(std::ifstream &); 
     void init_D_from_file(std::ifstream &);
+    float get_cost(int *); // Get cost for given schedule
+    int nbv(int *); // Number of atmost and no-constraints violations
 
     // Neighborhood exploration utlities
     void swapHomes(int *, int, int);
@@ -58,10 +61,11 @@ class TTSA{
     int *S; // Current Schedule
     int *dist; // Distance matrix
     int n, runs; // n is the # of teams and runs are total rounds = 2 * n - 2
-    float start_T; // initial temperature
+    float start_T, w; // initial temperature
 }; // Class TTSA ends
 
 void remove_from_vector(std::vector<std::tuple<int, int> > & , std::tuple<int, int>);
+float f_func(int); // The sub-linear function f(v).
 
 // template int remove_from_vector(std::vector<std::tuple<int, int> > &, std::tuple<int, int> &);
 

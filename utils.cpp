@@ -6,6 +6,7 @@
 #include <tuple>
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 #include "ttsa.h"
 
@@ -18,6 +19,14 @@ void nttsa::display_S(int *S, int n, int runs){
             std::cout << S[j + i * runs] << "    ";
         std::cout << std::endl;
     }
+}
+
+float nttsa::f_func(int inp){
+/*
+ * Computes the sub-linear function f(v) = 1 + sqrt(v) * ln(v) / 2
+ */
+
+    return (1 + (sqrt(inp) * std::log(inp) / 2.0));
 }
 
 void nttsa::display_D(int *d, int n){
