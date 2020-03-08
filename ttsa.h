@@ -35,7 +35,7 @@ class TTSA{
     void init_D_from_file(std::ifstream &);
     float get_cost(int *); // Get cost for given schedule
     int nbv(int *); // Number of atmost and no-constraints violations
-
+    bool iter_gensched(std::vector<std::tuple<int, int> > );
     // Neighborhood exploration utlities
     void swapHomes(int *, int, int);
     void swapTeams(int *, int, int );

@@ -73,9 +73,13 @@ void test_cost(nttsa::TTSA &t){
     cout << "Cost = " << t.get_cost(t.get_S()) << std::endl;
 }
 
+void test_nbv(nttsa::TTSA &t){
+    test_randomSchedule(t);
+    cout << "NBV = " << t.nbv(t.get_S()) << endl;;
+}
 int main(int argc, char *argv[]){
     
-    nttsa::TTSA t_obj(4, 1);
+    nttsa::TTSA t_obj(8, 1);
     cout << "Object created " << endl;
     // test_randomSchedule(t_obj);
     
@@ -84,8 +88,9 @@ int main(int argc, char *argv[]){
     // t_obj.init_S_from_file(f);
     // nttsa::display_S(t_obj.get_S(), t_obj.get_n(), t_obj.get_runs());
     //test_nbd_utils(t_obj);
-    test_cost(t_obj);
+    // test_cost(t_obj);
     // test_init_D(t_obj);
     // test_constraints(t_obj);
+    test_nbv(t_obj);
     return 0;
 }
