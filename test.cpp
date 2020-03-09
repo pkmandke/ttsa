@@ -79,7 +79,7 @@ void test_nbv(nttsa::TTSA &t){
 }
 int main(int argc, char *argv[]){
     
-    nttsa::TTSA t_obj(8, 1);
+    nttsa::TTSA t_obj(4, 1);
     cout << "Object created " << endl;
     // test_randomSchedule(t_obj);
     

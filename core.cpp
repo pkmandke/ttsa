@@ -28,9 +28,9 @@ void nttsa::TTSA::reset_S(){
     
     int i = 1, j = 1;
 
-    for(;i <= n; i++)
-    for(;j <= runs; j++)
-        S[j + i * runs] = 0;
+    for(i = 1;i <= n; i++)
+    for(j = 1;j <= runs; j++)
+        this->S[j + i * runs] = 0;
 }
 
 void nttsa::TTSA::reset_dist(){
