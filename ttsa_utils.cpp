@@ -160,6 +160,9 @@ bool nttsa::TTSA::iter_gensched(vector<tuple<int, int> > Q){
     }
     return true;
 }
+
+
+/* This method is now deprecated in favor of an iterative version of the same. */
 bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
 /*
  * Generate (recursively) the initial schedule S.
@@ -272,6 +275,7 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
     free(choices);
     return false;
 }
+
 
 int nttsa::TTSA::nbv(int *Sch){
 /*

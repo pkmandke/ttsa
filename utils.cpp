@@ -21,6 +21,18 @@ void nttsa::display_S(int *S, int n, int runs){
     }
 }
 
+bool nttsa::sample_prob(float temp, float delta){
+   
+   // Source: https://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution
+   std::random_device seeder;
+   std::mt19937 gen(seeder()); //Standard mersenne_twister_engine seeded with rd()
+   std::uniform_real_distribution<> sampler(0.0, 1.0);
+
+   if(sampler(gen) < std::exp(-1.0 * delta/temp)) return true;
+
+   return false;
+}
+
 float nttsa::f_func(int inp){
 /*
  * Computes the sub-linear function f(v) = 1 + sqrt(v) * ln(v) / 2

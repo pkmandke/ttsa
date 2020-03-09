@@ -28,7 +28,7 @@ class TTSA{
     void allocate_mem();
     
     // Core
-    void train(float T);
+    void train(int, int, float, float, float);
     bool generateSchedule(std::vector<std::tuple<int, int> > , int *);
     void randomSchedule();
     void init_S_from_file(std::ifstream &); 
@@ -58,6 +58,8 @@ class TTSA{
 
     private:
     
+    void copy_sched(int *, int *);
+    void apply_random_move(int *);
     int *S; // Current Schedule
     int *dist; // Distance matrix
     int n, runs; // n is the # of teams and runs are total rounds = 2 * n - 2
@@ -69,6 +71,7 @@ float f_func(int); // The sub-linear function f(v).
 
 // template int remove_from_vector(std::vector<std::tuple<int, int> > &, std::tuple<int, int> &);
 
+bool sample_prob(float, float);
 void display_S(int *, int, int);
 void display_D(int *, int); // Display the distance matrix
 void swapInts(int *, int *);
