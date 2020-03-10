@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <random>
 
 #include "ttsa.h"
 

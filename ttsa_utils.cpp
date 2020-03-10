@@ -21,7 +21,7 @@ using namespace std;
 
 int myrandom (int i) { return rand()%i;}
 
-void nttsa::TTSA::randomSchedule(){
+bool nttsa::TTSA::randomSchedule(){
 /* 
  * RandomSchedule utility used for initializing the Schedule S.
  */
@@ -47,6 +47,10 @@ void nttsa::TTSA::randomSchedule(){
         this->reset_S(); // Reset Schedule before trying again
         tries++;
     }
+
+    if(tries >= 400) return false;
+
+    return true;
     // this->generateSchedule(Q, S);
 }
 
@@ -345,6 +349,24 @@ float nttsa::TTSA::get_cost(int *Sch){
   if(isFeasible(Sch)) return (float)tot_cost;
 
   return sqrt(pow(tot_cost, 2.0) + pow(this->w * nttsa::f_func(nbv(Sch)), 2.0));
+}
+
+
+bool nttsa::TTSA::verifyRR(int *Sch){
+/*
+ * Return true iff the given schedule satisfies round-robin constraint.
+ */
+    int sum, i, j;
+
+    for(i = 1; i <= n; i++){
+        sum = 0;
+        for(j = 1; j <= runs; j++)
+            if(abs(Sch[j + i * runs]) == i) return false;
+            else sum += Sch[j + i * runs];
+        if(sum != 0) return false;
+    }
+
+    return true;
 }
 
 
