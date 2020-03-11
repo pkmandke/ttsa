@@ -32,7 +32,7 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
  * The main SA algorithm.
  */
 
-    float old_cost, new_cost, bestTemp, bestsoFar = get_cost(this->S), bestFeasible = std::numeric_limits<float>::infinity(), bestInfeasible = std::numeric_limits<float>::infinity();
+    float old_cost, new_cost, bestTemp, bestFeasible = std::numeric_limits<float>::infinity(), bestInfeasible = std::numeric_limits<float>::infinity();
     bool accept;
     int nbv_Sp, counter = 0, reheat = 0, phase = 0;
     int nbi = std::numeric_limits<int>::max(), nbf = std::numeric_limits<int>::max();
@@ -70,7 +70,7 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                     else counter++;
                 }
             }
-            cout << "Phase " << phase << ", Counter = " << counter << ", bestsoFar = " << bestsoFar << endl;
+            cout << "Phase " << phase << ", bestF = " << bestFeasible << ", bestInf = " << bestInfeasible <<  ", nbi = " << nbi << ", nbf = " << nbf << endl;
             phase++;
             temp = temp * beta;
         }
