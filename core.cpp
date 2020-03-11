@@ -70,7 +70,8 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                     else counter++;
                 }
             }
-            cout << "Phase " << phase << ", bestF = " << bestFeasible << ", bestInf = " << bestInfeasible <<  ", nbi = " << nbi << ", nbf = " << nbf << endl;
+            
+            cout << "Phase " << phase << ", bestF = " << bestFeasible << ", bestInf = " << bestInfeasible <<  ", nbi = " << nbi << ", nbf = " << nbf << ", temp = " << temp << endl;
             phase++;
             temp = temp * beta;
         }

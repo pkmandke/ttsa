@@ -134,7 +134,7 @@ void test_core_SA(nttsa::TTSA &t){
    cout << "S before train:" << endl;
    nttsa::display_S(t.get_S(), t.get_n(), t.get_runs());
    
-   t.train(5, 5, 5, 5, 0.4, 0.7, 1, 6);
+   t.train(5, 5, 5, 5, 0.4, 2, 2, 6);
 
     cout << "S after train" << endl;
     nttsa::display_S(t.get_S(), t.get_n(), t.get_runs());
