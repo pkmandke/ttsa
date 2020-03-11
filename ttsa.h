@@ -29,7 +29,7 @@ class TTSA{
     void allocate_mem();
     
     // Core
-    void train(int, int, int, float, float, float, float);
+    void train(int, int, int, float, float, float, float, float);
     bool generateSchedule(std::vector<std::tuple<int, int> > , int *);
     bool randomSchedule();
     void init_S_from_file(std::ifstream &); 

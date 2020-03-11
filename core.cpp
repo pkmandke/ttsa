@@ -27,7 +27,7 @@ nttsa::TTSA::TTSA(int n, int allocate_memory){
     this->reset_dist();
 }
 
-void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, float delta, float theta){
+void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, float delta, float theta, float init_w){
 /*
  * The main SA algorithm.
  */
@@ -37,6 +37,8 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
     int nbv_Sp, counter = 0, reheat = 0, phase = 0;
     int nbi = std::numeric_limits<int>::max(), nbf = std::numeric_limits<int>::max();
     int *S_prime = (int *)malloc((n + 1) * (runs + 1) * sizeof(int));
+
+    this->w = init_w;
     
     while(reheat <= maxr){
         phase = 0;
@@ -49,7 +51,7 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                 nbv_Sp = nbv(S_prime); // Number of violations in the new schedule.
                 if((new_cost < old_cost) || (nbv_Sp == 0 && new_cost < bestFeasible) || (nbv_Sp > 0 && new_cost < bestInfeasible)) accept = true;
                 else accept = nttsa::sample_prob(temp, abs(new_cost - get_cost(S))); // Sample as per probability
-            
+                cout << "Accept = " << accept << endl; 
                 if(accept){
                     copy_sched(S_prime, S); // Source, dest
                     if(nbv_Sp == 0) nbf = std::min(new_cost, bestFeasible);
@@ -62,8 +64,8 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                         bestTemp = temp;
                         bestFeasible = nbf;
                         bestInfeasible = nbi;
-                        if(nbv_Sp == 0) w /= theta;
-                        else w *= delta;
+                        if(nbv_Sp == 0) this->w /= theta;
+                        else this->w *= delta;
                     }
                     else counter++;
                 }

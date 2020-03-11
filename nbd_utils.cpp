@@ -145,7 +145,7 @@ bool nttsa::TTSA::partialSwapTeams(int *Sch, int ti, int tj, int r){
 
         nttsa::swapInts(&Sch[next_rnd + ti * runs], &Sch[next_rnd + tj * runs]); // Swap
         nttsa::swapInts(&Sch[next_rnd + abs(Sch[next_rnd + ti * runs]) * runs], &Sch[next_rnd + abs(Sch[next_rnd + tj * runs]) * runs]); // Swap the corresponding teams as well.
-        cout << "Swapping signs now." << endl;
+        // cout << "Swapping signs now." << endl;
         if(nttsa::sign_of(Sch[next_rnd + ti * runs]) != nttsa::sign_of(Sch[next_rnd + tj * runs])){ // If the swapped teams are not both home or both away then swap the signs of their opponents
             Sch[next_rnd + abs(Sch[next_rnd + ti * runs]) * runs] = -1 * Sch[next_rnd + abs(Sch[next_rnd + ti * runs]) * runs];
             Sch[next_rnd + abs(Sch[next_rnd + tj * runs]) * runs] = -1 * Sch[next_rnd + abs(Sch[next_rnd + tj * runs]) * runs];

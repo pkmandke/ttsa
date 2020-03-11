@@ -134,17 +134,21 @@ void test_core_SA(nttsa::TTSA &t){
    cout << "S before train:" << endl;
    nttsa::display_S(t.get_S(), t.get_n(), t.get_runs());
    
-   t.train(10, 10, 10, 5, 0.4, 0.7, 1);
+   t.train(5, 5, 5, 5, 0.4, 0.7, 1, 6);
 
     cout << "S after train" << endl;
     nttsa::display_S(t.get_S(), t.get_n(), t.get_runs());
-    
+    cout << " Verify RR says " << t.verifyRR(t.get_S()) << endl;
+
+    cout << "FInal cost is " << t.get_cost(t.get_S()) << endl;
+    cout << "Final is feasible? => " << t.isFeasible(t.get_S()) << endl;
+    cout << "Final nbv = " << t.nbv(t.get_S()) << endl;
 }
 
 
 int main(int argc, char *argv[]){
     
-    nttsa::TTSA t_obj(4, 1);
+    nttsa::TTSA t_obj(6, 1);
     cout << "Object created " << endl;
     // test_randomSchedule(t_obj);
     
@@ -160,8 +164,10 @@ int main(int argc, char *argv[]){
     //
 
     int i;
-    for(i = 0; i < 10; i++) test_nbd_utils(t_obj);
+    //for(i = 0; i < 10; i++) test_nbd_utils(t_obj);
    // test_core_SA(t_obj);
     //for(i = 0; i < 10; i++) test_core_funcs(t_obj);
+    //
+    test_core_SA(t_obj);
     return 0;
 }
