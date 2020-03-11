@@ -313,7 +313,7 @@ int nttsa::TTSA::nbv(int *Sch){
                     h = 1;
                 }
             }
-            if(h >= 3 || w >= 3) num_v += 1;
+            if(h >= 4 || w >= 4) num_v += 1;
         }
     }
 
@@ -397,7 +397,7 @@ bool nttsa::TTSA::isAtmost(int *Sch){
                     h = 1;
                 }
             }
-            if(h >= 3 || w >= 3) return false;
+            if(h >= 4 || w >= 4) return false;
         }
     }
 
