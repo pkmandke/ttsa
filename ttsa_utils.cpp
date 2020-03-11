@@ -356,14 +356,35 @@ bool nttsa::TTSA::verifyRR(int *Sch){
 /*
  * Return true iff the given schedule satisfies round-robin constraint.
  */
-    int sum, i, j;
+    int sum, i, j, k, rr_sum;
+
+    for(k = 1; k <= n; k++){
+        rr_plus[k] = 0;
+        rr_minus[k] = 0;
+    }
 
     for(i = 1; i <= n; i++){
         sum = 0;
+        rr_sum = 0;
         for(j = 1; j <= runs; j++)
             if(abs(Sch[j + i * runs]) == i) return false;
-            else sum += Sch[j + i * runs];
+            else{
+                sum += Sch[j + i * runs];
+                if(Sch[j + i * runs] < 0) rr_minus[abs(Sch[j + i * runs])] = 1;
+                else if(Sch[j + i * runs] > 0) rr_plus[Sch[j + i * runs]] = 1;
+                else return false;
+            }
         if(sum != 0) return false;
+        if(rr_plus[i] != 0) return false;
+        if(rr_minus[i] != 0) return false;
+
+        for(k = 1; k <= n; k++){
+            rr_sum += rr_plus[k];
+            rr_sum += rr_minus[k];
+            rr_plus[k] = 0;
+            rr_minus[k] = 0;
+        }
+        if(rr_sum != (2 * (n - 1))) return false;
     }
 
     return true;
@@ -421,7 +442,7 @@ bool nttsa::TTSA::isFeasible(int *Sch){
 /* 
  * Return true iff the schedule Sch is feasible, that is, iff both the atmost and norepeat constraints are satisfied.
  */
-    if(isNorepeat(Sch) && isAtmost(Sch)) return true;
+    if(verifyRR(Sch) && isNorepeat(Sch) && isAtmost(Sch)) return true;
 
     return false;
 }

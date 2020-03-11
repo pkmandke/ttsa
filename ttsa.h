@@ -77,6 +77,7 @@ class TTSA{
     void copy_sched(int *, int *);
     int *S; // Current Schedule
     int *dist; // Distance matrix
+    int *rr_plus, *rr_minus; // Required for verfying round-robin constraint
     int n, runs; // n is the # of teams and runs are total rounds = 2 * n - 2
     float start_T, w; // initial temperature
 }; // Class TTSA ends

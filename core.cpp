@@ -51,7 +51,7 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                 nbv_Sp = nbv(S_prime); // Number of violations in the new schedule.
                 if((new_cost < old_cost) || (nbv_Sp == 0 && new_cost < bestFeasible) || (nbv_Sp > 0 && new_cost < bestInfeasible)) accept = true;
                 else accept = nttsa::sample_prob(temp, abs(new_cost - get_cost(S))); // Sample as per probability
-                cout << "Accept = " << accept << endl; 
+                // cout << "Accept = " << accept << endl; 
                 if(accept){
                     copy_sched(S_prime, S); // Source, dest
                     if(nbv_Sp == 0) nbf = std::min(new_cost, bestFeasible);
@@ -162,6 +162,8 @@ void nttsa::TTSA::allocate_mem(){
 /*
  * Allocate required memory dynamic.
  */
+    rr_plus = (int *)malloc((n + 1) * sizeof(int));
+    rr_minus = (int *)malloc((n + 1) * sizeof(int));
     this->dist = (int *)malloc((n + 1) * (n + 1) * sizeof(int)); // Allocate memory for distance matrix
     this->S = (int *)malloc((n + 1) * (runs + 1) * sizeof(int)); // Allocate 1 row and column extra to allow 1 indexing.
 }
@@ -170,4 +172,6 @@ nttsa::TTSA::~TTSA(){
 
     free(this->S);
     free(this->dist);
+    free(this->rr_plus);
+    free(this->rr_minus);
 }
