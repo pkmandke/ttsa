@@ -89,20 +89,10 @@ void test_constraints(nttsa::TTSA &t_obj){
     else cout << "Not feasible." << endl;
 }
 
-void test_init_D(nttsa::TTSA &t_obj){
-    
-    ifstream f;
-    f.open("./dist/test_distance_4.txt");
-
-    t_obj.init_D_from_file(f);
-    cout << "Distance matrix is: " << std::endl;
-    
-    nttsa::display_D(t_obj.get_dist(), t_obj.get_n());
-}
 
 void test_cost(nttsa::TTSA &t){
     test_randomSchedule(t);
-    test_init_D(t);
+    // test_init_D(t); // Uncomment this line!!!
     cout << "Cost = " << t.get_cost(t.get_S()) << std::endl;
 }
 
@@ -145,6 +135,19 @@ void test_core_SA(nttsa::TTSA &t){
     cout << "Final nbv = " << t.nbv(t.get_S()) << endl;
 }
 
+void test_init_D(nttsa::TTSA &t_obj){
+    
+    int i;
+    ifstream f;
+        f.open("./data/nl_6.txt");
+
+        t_obj.init_D_from_file(f);
+        cout << "Distance matrix is: " << std::endl;
+    
+        nttsa::display_D(t_obj.get_dist(), t_obj.get_n());
+        f.close();
+}
+
 
 int main(int argc, char *argv[]){
     
@@ -162,12 +165,13 @@ int main(int argc, char *argv[]){
     // test_constraints(t_obj);
     // test_nbv(t_obj);
     //
-
+    
+    test_init_D(t_obj);
     int i;
     //for(i = 0; i < 10; i++) test_nbd_utils(t_obj);
    // test_core_SA(t_obj);
     //for(i = 0; i < 10; i++) test_core_funcs(t_obj);
     //
-    test_core_SA(t_obj);
+    // test_core_SA(t_obj);
     return 0;
 }

@@ -38,7 +38,10 @@ class TTSA{
     int nbv(int *); // Number of atmost and no-constraints violations
     bool iter_gensched(std::vector<std::tuple<int, int> > );
     void apply_random_move(int *);
+    float get_distance(int *);
+    
     // Neighborhood exploration utlities
+    
     void swapHomes(int *, int, int);
     void swapTeams(int *, int, int );
     void swapRounds(int *, int, int);

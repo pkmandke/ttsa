@@ -326,11 +326,11 @@ int nttsa::TTSA::nbv(int *Sch){
     return num_v;
 }
 
-
-float nttsa::TTSA::get_cost(int *Sch){
-/* 
- * Return the (modified) cost C(S) for the given schedule.
+float nttsa::TTSA::get_distance(int *Sch){
+/*
+ * Returns the total distance travelled by all teams.
  */
+
   int tm, rnd, tot_cost = 0;
 
   for(tm = 1; tm <= n; tm++){
@@ -346,9 +346,18 @@ float nttsa::TTSA::get_cost(int *Sch){
     if(nttsa::sign_of(Sch[runs + tm * runs]) == -1) tot_cost += dist[tm + abs(Sch[runs + tm * runs]) * n]; // If last game for this team is away, then compute distance to home.
   }
 
-  if(isFeasible(Sch)) return (float)tot_cost;
+  return tot_cost;
+}
 
-  return sqrt(pow(tot_cost, 2.0) + pow(this->w * nttsa::f_func(nbv(Sch)), 2.0));
+
+float nttsa::TTSA::get_cost(int *Sch){
+/* 
+ * Return the (modified) cost C(S) for the given schedule.
+ */
+
+  if(isFeasible(Sch)) return (float)get_distance(Sch);
+
+  return sqrt(pow(get_distance(Sch), 2.0) + pow(this->w * nttsa::f_func(nbv(Sch)), 2.0));
 }
 
 
@@ -448,6 +457,9 @@ bool nttsa::TTSA::isFeasible(int *Sch){
 }
 
 void nttsa::TTSA::init_S_from_file(ifstream &fin){
+/* 
+ * Initializing the schedule from a file (instead of random) to help debugging.
+ */
     int i, j;
     char ch;
 
@@ -470,13 +482,19 @@ void nttsa::TTSA::init_D_from_file(ifstream &fin){
 
     int i, j;
     char ch;
+    bool got_dist;
 
     for(i = 1; i <= n; i++)
     for(j = 1; j <= n; j++){
         vector<char> num;
+        got_dist = false;
         while(fin.get(ch)){
-            if(ch == ' ' || ch == '\n') break;
+            if(ch == ' ' || ch == '\n'){
+                if(got_dist) break;
+                else continue;
+            }
             num.push_back(ch);
+            got_dist = true;
         }
         if(num.size()){
             dist[j + i * n] = std::stoi(std::string(num.begin(), num.end())); // Read number and convert to int
