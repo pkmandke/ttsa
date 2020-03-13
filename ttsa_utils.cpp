@@ -34,7 +34,6 @@ bool nttsa::TTSA::randomSchedule(){
     for(j = 1; j <= this->runs; j++)
         Q.push_back(make_tuple(i, j));
     
-    // std::sort(Q.begin(), Q.end(), tuple_compare);
    /* 
     for(i = 1; i <= this->n; i++)
     for(j = 1; j <= this->runs; j++){
@@ -42,7 +41,7 @@ bool nttsa::TTSA::randomSchedule(){
         k++;
     }*/
     
-    int tries = 0; // Max number pf times to try generate a random schedule.
+   /* int tries = 0; // Max number pf times to try generate a random schedule.
     while(tries < 400 && !this->iter_gensched(Q)){
         this->reset_S(); // Reset Schedule before trying again
         tries++;
@@ -51,7 +50,12 @@ bool nttsa::TTSA::randomSchedule(){
     if(tries >= 400) return false;
 
     return true;
-    // this->generateSchedule(Q, S);
+    */
+    cout << "Calling recursive generate..." << endl;
+
+    if(this->generateSchedule(Q, S)) return true;
+
+    return false;
 }
 
 bool nttsa::TTSA::iter_gensched(vector<tuple<int, int> > Q){
@@ -146,7 +150,7 @@ bool nttsa::TTSA::iter_gensched(vector<tuple<int, int> > Q){
         // break;
     }
     if(nofree == 0){
-        cout << "No free found for t, w = " << t << ", " << w << endl;
+        // cout << "No free found for t, w = " << t << ", " << w << endl;
         //cout << "schedule is " << endl;
         //nttsa::display_S(S, n, runs);
         //break;
@@ -184,27 +188,25 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
     int t = get<0>(Q[0]), w = get<1>(Q[0]); // Store the lexicographically minimum <t, w> pair. where t is the team id and w is the week id or run id (both 1-indexed).
     //cout << "t and w are " << t << " " << w << endl;
     // if(S[w + abs(t) * runs] != 0) return true;
-    int *choices = (int *)malloc((2 * n - 2) * sizeof(int)); // Create array for choices
+    vector<int> choices;
     int n_2 = 2 * n;
 
     i = 0;
     c = 1; // Populate choices.
-    while(i < (n_2 - 2)){
-        if(c != t){
-           choices[i++] = c;
-           choices[i++] = -c;
-        }
+    while(c <= n){
+    if(c != t){ 
+            choices.push_back(c);
+            choices.push_back(-c); 
+            }
         c++;
-    }
-    
-    /*
-    cout << "Choices. " << endl;
-    for(i = 0; i < (n_2 - 2); i++) cout << choices[i] << " ";
-    cout << endl;
-    cout << std::uniform_int_distribution<int>(0,2000) << endl;
-    */
+    }   
+            
+    // cout << "Choices before " << endl;
+    // for(i = 0; i < (n_2 - 2); i++) cout << choices[i] << " ";
+    // cout << endl;
+    // cout << "Shuffling elements are " << choices[0] << ", " << choices[n_2 - 3] <<endl;
 
-    random_shuffle(&choices[0], &choices[n_2 - 3], myrandom); // Shuffle choices
+    random_shuffle(choices.begin(), choices.end(), myrandom); // Shuffle choices
     /*
     cout << "Shuffled choices. " << endl;
     for(i = 0; i < (n_2 - 2); i++) cout << choices[i] << " ";
@@ -214,11 +216,6 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
     for(i = 0; i < (n_2 - 2); i++){
         o = choices[i];
         // cout << "Checking if o is free: " << o << endl;
-        if(t >= 7){
-        cout << "S status " << endl;
-        nttsa::display_S(S, n, runs);
-        cout << "w = " << w << " t = " << t << " checking choice " << o << endl;
-        }//Check if team o is free and can be assigned to a game in this week (w)
         bool isPresent = false;
         for(j = 1; j <= n; j++)
         if(abs(o) == abs(S[w + j * runs])){
@@ -227,7 +224,6 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
         }
 
         if(isPresent) continue; // team o is already assigned home or away, go to next team for this week
-        if(t >= 7) cout << "Weeknwise vacant " << endl;
         isPresent = false;
         for(j = 1; j <= runs; j++)
         if(o == S[j + abs(t) * runs]){
@@ -236,7 +232,6 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
         }
          
         if(isPresent) continue;
-        if(t >= 7) cout << " Team wise vacant as well " << endl;
         // cout << "Free team o found for team t in week w: " << o << " " << t << " " << w << endl;
 
         /*
@@ -254,29 +249,25 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
             S[w + o * runs] = -t;
         }
         else{
-            int o_ = -1 * o;
-            S[w + o_ * runs] = t;
+            S[w + abs(o) * runs] = t;
         }
-        if(t >= 7){
-        cout << "After allotment " << endl;
-        nttsa::display_S(S, n, runs);
-}
         /*
         cout << "S after allotment: " << endl;
         nttsa::display_S(S, n, runs);
         */
         remove_from_vector(Q, make_tuple(t, w)); // Remove this tuple from the vector
         remove_from_vector(Q, make_tuple(abs(o), w));
-        if(t >= 7) cout << "Calling recursive" << endl;
         if(generateSchedule(Q, S)){
-            free(choices);
             return true;
         }
-        // break;
+        Q.push_back(make_tuple(t, w));
+        Q.push_back(make_tuple(abs(o), w));
+        std::sort(Q.begin(), Q.end());
+        S[w + abs(t) * runs] = 0;
+        S[w + abs(o) * runs] = 0;
     }
         
     // cout << "Breaking for t w " << t << " " << w << endl;
-    free(choices);
     return false;
 }
 

@@ -17,6 +17,8 @@ void test_randomSchedule(nttsa::TTSA &t_obj){
 
     cout << "S matrix after random initialization is " << endl;
     nttsa::display_S(t_obj.get_S(), t_obj.get_n(), t_obj.get_runs());
+
+    cout << "Is schedule RR> => " << t_obj.verifyRR(t_obj.get_S()) << endl;
 }
 
 void re_init(int *Sch, int *S, int n, int runs){
@@ -151,9 +153,9 @@ void test_init_D(nttsa::TTSA &t_obj){
 
 int main(int argc, char *argv[]){
     
-    nttsa::TTSA t_obj(6, 1);
+    nttsa::TTSA t_obj(atoi(argv[1]), 1);
     cout << "Object created " << endl;
-    // test_randomSchedule(t_obj);
+    test_randomSchedule(t_obj);
     
     //ifstream f;
     // f.open("./schedules/sched_pSwaprounds.txt");
@@ -166,7 +168,7 @@ int main(int argc, char *argv[]){
     // test_nbv(t_obj);
     //
     
-    test_init_D(t_obj);
+   // test_init_D(t_obj);
     int i;
     //for(i = 0; i < 10; i++) test_nbd_utils(t_obj);
    // test_core_SA(t_obj);
