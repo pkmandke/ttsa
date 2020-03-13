@@ -14,8 +14,20 @@
 #include <algorithm>
 #include <ctime>
 #include <cmath>
+#include <chrono>
 
 #include "ttsa.h"
+
+using namespace std::chrono;
+using namespace std;
+
+// Source: https://stackoverflow.com/a/49360677/10182805
+ double what_time_is_it()
+{
+     struct timespec now;
+     clock_gettime(CLOCK_REALTIME, &now);
+     return now.tv_sec + now.tv_nsec*1e-9;
+}
 
 using namespace std;
 
