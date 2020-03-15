@@ -90,6 +90,7 @@ float f_func(int); // The sub-linear function f(v).
 
 // template int remove_from_vector(std::vector<std::tuple<int, int> > &, std::tuple<int, int> &);
 
+double what_time_is_it();
 bool sample_prob(float, float);
 void display_S(int *, int, int);
 void display_D(int *, int); // Display the distance matrix

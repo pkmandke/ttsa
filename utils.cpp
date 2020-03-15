@@ -8,8 +8,20 @@
 #include <cstdlib>
 #include <cmath>
 #include <random>
+#include <ctime>
+#include <chrono>
 
 #include "ttsa.h"
+
+using namespace std::chrono;
+
+// Source: https://stackoverflow.com/a/49360677/10182805
+double nttsa::what_time_is_it()
+{
+      struct timespec now;
+           clock_gettime(CLOCK_REALTIME, &now);
+                return now.tv_sec + now.tv_nsec*1e-9;
+}
 
 void nttsa::display_S(int *S, int n, int runs){
 
