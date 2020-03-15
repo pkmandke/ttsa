@@ -63,10 +63,9 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                     cout << "isFeasible method returns => " << isFeasible(S_prime) << endl;
                     cout << "Current cost = " << new_cost << endl;
                     cout << "Number of atmost and no-repeat violations = " << nbv(S_prime) << endl;
-                    cout << endl << endl;
                     bestCost = new_cost;
                     cout << "Time since start upto this update: " << nttsa::what_time_is_it() - t1 << "s." << endl; 
-                    // return;
+                    cout << endl << endl;
                 }
 
                 if(accept){
