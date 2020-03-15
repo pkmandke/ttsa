@@ -9,9 +9,9 @@
 
 using namespace std;
 
-int main(int argc, char *argv[]){
-    
-    int maxc = 5000, maxp = 7100, maxr = 10, w0 = 4000, t0 = 400, n = 16;
+void basic_tests(){
+
+    int maxc = 5000, maxp = 7100, maxr = 10, w0 = 4000, t0 = 400, n = 8;
 
     float beta = 0.9999, delta = 1.04, theta = 1.04;
 
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
     
     ofstream fout;
     ifstream f;
-    f.open("./data/nl_16.txt");
+    f.open("./data/nl_8.txt");
     t.init_D_from_file(f);
 
     while(!t.randomSchedule());
@@ -40,6 +40,13 @@ int main(int argc, char *argv[]){
     cout << "Is schedule feasible? => " << t.isFeasible(t.get_S()) << endl;
 
     cout << "Num of nbv violations " << t.nbv(t.get_S()) << endl;
+
+}
+
+
+int main(int argc, char *argv[]){
+    
+    basic_tests();
 
     return 0;
 }

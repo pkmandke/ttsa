@@ -54,12 +54,14 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                 else accept = nttsa::sample_prob(temp, abs(new_cost - get_cost(S))); // Sample as per probability
                 // cout << "Accept = " << accept << endl;
                 if(new_cost < bestCost && isFeasible(S_prime)){
-                    cout << "Best cost updated with a feasible schedule." << endl;
-                    cout << "Counter = " << counter << ", phase = " << phase << ", reheats = " << reheat << endl;
-                    cout << "Schedule is: " << endl;
+                    // cout << "Current feasible schedule." << endl;
+                    // cout << "Counter = " << counter << ", phase = " << phase << ", reheats = " << reheat << endl;
+                    cout << "Current feasible Schedule is: " << endl;
                     nttsa::display_S(S_prime, n, runs);
                     copy_sched(S_prime, S);
+                    cout << "isFeasible method returns => " << isFeasible(S_prime) << endl;
                     cout << "Current cost = " << new_cost << endl;
+                    cout << "Number of atmost and no-repeat violations = " << nbv(S_prime) << endl;
                     cout << endl << endl;
                     bestCost = new_cost;
                     // return;
