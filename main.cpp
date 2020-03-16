@@ -51,9 +51,9 @@ void basic_tests(int argc, char *argv[]){
 
 void runtime_tests(int argc, char *argv[]){
     
-    int maxc = 4000, maxp = 1385, maxr = 50, w0 = 10000, t0 = 600, n = atoi(argv[1]);
+    int maxc = 4000, maxp = 7100, maxr = 30, w0 = 20000, t0 = 600, n = atoi(argv[1]);
 
-    float beta = 0.9995, delta = 1.03, theta = 1.03;
+    float beta = 0.9999, delta = 1.03, theta = 1.03;
 
     nttsa::TTSA t(n = n);
     cout << "N = " << n << endl;
