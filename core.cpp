@@ -42,7 +42,7 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
     this->w = init_w;
     double t1 = nttsa::what_time_is_it(); 
     
-    while(reheat <= maxr){
+    // while(reheat <= maxr){
         phase = 0;
         while(phase <= maxp){
             counter = 0;
@@ -90,10 +90,10 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
             phase++;
             temp = temp * beta;
         }
-        reheat++;
-        temp = 2 * bestTemp;
+        // reheat++;
+        // temp = 2 * bestTemp;
         // if(isFeasible(this->S)) return;
-    }
+    // }
 
     free(S_prime);
 }
@@ -109,7 +109,7 @@ void nttsa::TTSA::apply_random_move(int *Sch){
     
    std::random_device rd;  //Will be used to obtain a seed for the random number engine
    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-   std::uniform_int_distribution<> dis(4, 5); // 5 moves in total
+   std::uniform_int_distribution<> dis(1, 5); // 5 moves in total
            
    std::random_device rd_team;  //Will be used to obtain a seed for the random number engine
    std::mt19937 gen_team(rd_team()); //Standard mersenne_twister_engine seeded with rd()
@@ -135,11 +135,11 @@ void nttsa::TTSA::apply_random_move(int *Sch){
             swapRounds(Sch, rnd_sampler(gen_rnd), rnd_sampler(gen_rnd));
             break;
         case 4:
-            //cout << "Applied 4" << endl;
+            cout << "Applied 4" << endl;
             partialSwapRounds(Sch, team_sampler(gen_team), rnd_sampler(gen_rnd), rnd_sampler(gen_rnd));
             break;
         case 5:
-            //cout << "Applied 5" << endl;
+            cout << "Applied 5" << endl;
             while(!partialSwapTeams(Sch, team_sampler(gen_team), team_sampler(gen_team), rnd_sampler(gen_rnd)));
             break;
     }
