@@ -123,23 +123,23 @@ void nttsa::TTSA::apply_random_move(int *Sch){
    // cout << dis(gen) << " " << team_sampler(gen_team) << " " << rnd_sampler(gen_rnd) << endl;
    switch(dis(gen)){
         case 1:
-            cout << "Applied 1" << endl;
+            // cout << "Applied 1" << endl;
             swapHomes(Sch, team_sampler(gen_team), team_sampler(gen_team));
             break;
         case 2:
-            cout << "Applied 2" << endl;
+            // cout << "Applied 2" << endl;
             swapTeams(Sch, team_sampler(gen_team), team_sampler(gen_team));
             break;
         case 3:
-            cout << "Applied 3" << endl;
+            // cout << "Applied 3" << endl;
             swapRounds(Sch, rnd_sampler(gen_rnd), rnd_sampler(gen_rnd));
             break;
         case 4:
-            cout << "Applied 4" << endl;
+            // cout << "Applied 4" << endl;
             partialSwapRounds(Sch, team_sampler(gen_team), rnd_sampler(gen_rnd), rnd_sampler(gen_rnd));
             break;
         case 5:
-            cout << "Applied 5" << endl;
+            // cout << "Applied 5" << endl;
             while(!partialSwapTeams(Sch, team_sampler(gen_team), team_sampler(gen_team), rnd_sampler(gen_rnd)));
             break;
     }
