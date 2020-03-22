@@ -109,7 +109,7 @@ void nttsa::TTSA::apply_random_move(int *Sch){
     
    std::random_device rd;  //Will be used to obtain a seed for the random number engine
    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-   std::uniform_int_distribution<> dis(1, 3); // 5 moves in total
+   std::uniform_int_distribution<> dis(4, 5); // 5 moves in total
            
    std::random_device rd_team;  //Will be used to obtain a seed for the random number engine
    std::mt19937 gen_team(rd_team()); //Standard mersenne_twister_engine seeded with rd()
@@ -123,23 +123,23 @@ void nttsa::TTSA::apply_random_move(int *Sch){
    // cout << dis(gen) << " " << team_sampler(gen_team) << " " << rnd_sampler(gen_rnd) << endl;
    switch(dis(gen)){
         case 1:
-            //cout << "Applied 1" << endl;
+            cout << "Applied 1" << endl;
             swapHomes(Sch, team_sampler(gen_team), team_sampler(gen_team));
             break;
         case 2:
-            //cout << "Applied 2" << endl;
+            cout << "Applied 2" << endl;
             swapTeams(Sch, team_sampler(gen_team), team_sampler(gen_team));
             break;
         case 3:
-            //cout << "Applied 3" << endl;
+            cout << "Applied 3" << endl;
             swapRounds(Sch, rnd_sampler(gen_rnd), rnd_sampler(gen_rnd));
             break;
         case 4:
-            cout << "Applied 4" << endl;
+            //cout << "Applied 4" << endl;
             partialSwapRounds(Sch, team_sampler(gen_team), rnd_sampler(gen_rnd), rnd_sampler(gen_rnd));
             break;
         case 5:
-            cout << "Applied 5" << endl;
+            //cout << "Applied 5" << endl;
             while(!partialSwapTeams(Sch, team_sampler(gen_team), team_sampler(gen_team), rnd_sampler(gen_rnd)));
             break;
     }
