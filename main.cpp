@@ -51,7 +51,7 @@ void basic_tests(int argc, char *argv[]){
 
 void runtime_tests(int argc, char *argv[]){
     
-    int maxc = 5000, maxp = 7100, maxr = 10, w0 = 6000, t0 = 300, n = atoi(argv[1]);
+    int maxc = 5000, maxp = 7100, maxr = 10, w0 = 6000, t0 = 200, n = atoi(argv[1]);
 
     float beta = 0.9999, delta = 1.04, theta = 1.04;
 
