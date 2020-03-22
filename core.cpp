@@ -42,7 +42,7 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
     this->w = init_w;
     double t1 = nttsa::what_time_is_it(); 
     
-    // while(reheat <= maxr){
+    while(reheat <= maxr){
         phase = 0;
         while(phase <= maxp){
             counter = 0;
@@ -90,10 +90,10 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
             phase++;
             temp = temp * beta;
         }
-        // reheat++;
-        // temp = 2 * bestTemp;
+        reheat++;
+        temp = 2 * bestTemp;
         // if(isFeasible(this->S)) return;
-    // }
+    }
 
     free(S_prime);
 }
