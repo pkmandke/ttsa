@@ -1,5 +1,5 @@
 /* 
- * Unit tests on individual funtions and utilities.
+ * Unit tests for individual funtions and utilities.
  */
 
 #include <iostream>
