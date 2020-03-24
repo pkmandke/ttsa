@@ -134,7 +134,7 @@ void full_run(int argc, char *argv[]){
 
 int main(int argc, char *argv[]){
     
-    // basic_tests(argc, argv);
-    runtime_tests(argc, argv);
+    full_run(argc, argv);
+    //runtime_tests(argc, argv);
     return 0;
 }

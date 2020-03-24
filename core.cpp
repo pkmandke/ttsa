@@ -53,13 +53,8 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
                 nbv_Sp = nbv(S_prime); // Number of violations in the new schedule.
                 if((new_cost < old_cost) || (nbv_Sp == 0 && new_cost < bestFeasible) || (nbv_Sp > 0 && new_cost < bestInfeasible)) accept = true;
                 else accept = nttsa::sample_prob(temp, abs(new_cost - get_cost(S))); // Sample as per probability
-                // cout << "Accept = " << accept << endl;
                 if(new_cost < bestCost && isFeasible(S_prime)){
-                    // cout << "Current feasible schedule." << endl;
-                    // cout << "Counter = " << counter << ", phase = " << phase << ", reheats = " << reheat << endl;
-                    // cout << "Current feasible Schedule is: " << endl;
-                    // nttsa::display_S(S_prime, n, runs);
-                    copy_sched(S_prime, S);
+                    // copy_sched(S_prime, S);
                     cout << "isFeasible method returns => " << isFeasible(S_prime) << endl;
                     cout << "Current cost = " << new_cost << endl;
                     cout << "Number of atmost and no-repeat violations = " << nbv(S_prime) << endl;
@@ -92,7 +87,6 @@ void nttsa::TTSA::train(int maxr, int maxp, int maxc, float temp, float beta, fl
         }
         reheat++;
         temp = 2 * bestTemp;
-        // if(isFeasible(this->S)) return;
     }
 
     free(S_prime);
@@ -104,8 +98,6 @@ void nttsa::TTSA::apply_random_move(int *Sch){
  */
 
     copy_sched(S, Sch); // Copy of current schedule stored in Sch
-   
-
     
    std::random_device rd;  //Will be used to obtain a seed for the random number engine
    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -119,8 +111,6 @@ void nttsa::TTSA::apply_random_move(int *Sch){
    std::mt19937 gen_rnd(rd_rnd()); //Standard mersenne_twister_engine seeded with rd()
    std::uniform_int_distribution<> rnd_sampler(1, runs); // 5 moves in total
 
-   // cout << "Samples are" << endl;
-   // cout << dis(gen) << " " << team_sampler(gen_team) << " " << rnd_sampler(gen_rnd) << endl;
    switch(dis(gen)){
         case 1:
             // cout << "Applied 1" << endl;
