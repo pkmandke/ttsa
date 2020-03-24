@@ -8,7 +8,7 @@
  *
  */
 
-#ifndef TTSA_H_
+#ifndef TTSA_H_ // Include guard
 #define TTSA_H_
 
 #include <iostream>
@@ -18,30 +18,32 @@
 #include <bits/stdc++.h>
 #include <random>
 
-namespace nttsa{
+namespace nttsa{ // Custom namespace
 
 class TTSA{
     
     public:
 
-    TTSA(int n = 4, int allocate_memory = 1);
+    TTSA(int n = 4, int allocate_memory = 1); // Constructor
     ~TTSA();
-    void allocate_mem();
+    void allocate_mem(); // Allocate memory for distance and schedules
     
     // Core
-    void train(int, int, int, float, float, float, float, float);
-    bool generateSchedule(std::vector<std::tuple<int, int> > , int *);
-    bool randomSchedule();
-    void init_S_from_file(std::ifstream &); 
-    void init_D_from_file(std::ifstream &);
+    void train(int, int, int, float, float, float, float, float); // The core SA algorithm
+    bool generateSchedule(std::vector<std::tuple<int, int> > , int *); // Recursive generate schedule utility
+    bool randomSchedule(); // Calls generateSchedule
+    void init_S_from_file(std::ifstream &); // Initialize Schedule from a file for debugginf
+    void init_D_from_file(std::ifstream &); // Initialize Distance matrix from file
     float get_cost(int *); // Get cost for given schedule
     int nbv(int *); // Number of atmost and no-constraints violations
-    bool iter_gensched(std::vector<std::tuple<int, int> > );
-    void apply_random_move(int *);
-    float get_distance(int *);
+    
+    // Deprecated
+    bool iter_gensched(std::vector<std::tuple<int, int> > ); // Iterative implementation of the generateSchedule utility => now deprecated
+    
+    void apply_random_move(int *); // Apply one of the 5 random moves
+    float get_distance(int *); // Get total distance each team needs to travel for a given schedule
     
     // Neighborhood exploration utlities
-    
     void swapHomes(int *, int, int);
     void swapTeams(int *, int, int );
     void swapRounds(int *, int, int);
@@ -53,6 +55,7 @@ class TTSA{
     bool isNorepeat(int *);
     bool isFeasible(int *);
     bool verifyRR(int *); // Verify round-robin constraint 
+
     // Getter setter and misc utils
     int *get_S();
     int get_n();
@@ -60,20 +63,6 @@ class TTSA{
     void reset_S();
     int *get_dist();
     void reset_dist();
-    
-    // Random number generators for moves
-    // Source: https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution
-    // std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    // std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-    //std::uniform_int_distribution<> dis(1, 5); // 5 moves in total
-
-    //std::random_device rd_team;  //Will be used to obtain a seed for the random number engine
-    //std::mt19937 gen_team(rd_team()); //Standard mersenne_twister_engine seeded with rd()
-    //std::uniform_int_distribution<> team_sampler(1, n); // 5 moves in total
-                                
-    //std::random_device rd_rnd;  //Will be used to obtain a seed for the random number engine
-    //std::mt19937 gen_rnd(rd_rnd()); //Standard mersenne_twister_engine seeded with rd()
-    //std::uniform_int_distribution<> rnd_sampler(1, runs); // 5 moves in total
     
     private:
     
@@ -85,17 +74,17 @@ class TTSA{
     float start_T, w; // initial temperature
 }; // Class TTSA ends
 
-void remove_from_vector(std::vector<std::tuple<int, int> > & , std::tuple<int, int>);
+void remove_from_vector(std::vector<std::tuple<int, int> > & , std::tuple<int, int>); // Removes given tuple of <t, w> from the vector
 float f_func(int); // The sub-linear function f(v).
 
-// template int remove_from_vector(std::vector<std::tuple<int, int> > &, std::tuple<int, int> &);
 
-double what_time_is_it();
-bool sample_prob(float, float);
+double what_time_is_it(); // Function for CPU time becnhmarking
+bool sample_prob(float, float); // Sample porbability for accepting infeasible solution
 void display_S(int *, int, int);
 void display_D(int *, int); // Display the distance matrix
 void swapInts(int *, int *);
 int sign_of(int);
 int find_pos(int *, int, int);
+
 }
 #endif
