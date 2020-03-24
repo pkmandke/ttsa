@@ -188,7 +188,11 @@ bool nttsa::TTSA::generateSchedule(vector<tuple<int, int> > Q, int *S){
         if(generateSchedule(Q, S)){
             return true;
         }
+        
+        Q.push_back(make_tuple(t, w));
+        Q.push_back(make_tuple(abs(o), w));
         std::sort(Q.begin(), Q.end());
+        
         S[w + abs(t) * runs] = 0;
         S[w + abs(o) * runs] = 0;
     }
