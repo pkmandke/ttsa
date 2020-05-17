@@ -20,9 +20,18 @@ As for the executing the program, main.cpp provides a command-line interface to 
 Note that this maye generate quite a bit of output in stdout since a verbosity flag has not been added (yet).
 Below is a guide to compile and execute the main program.
                                           
-Compile: g++ -std=c++11 -O3 -o my_obj_file main.cpp ttsa_utils.cpp utils.cpp nbd_utils.cpp core.cpp
+Compile (from the ./src directory): g++ -std=c++11 -O3 -o my_obj_file main.cpp ttsa_utils.cpp utils.cpp nbd_utils.cpp core.cpp
 
 Execute: ./my_obj_file  num_teams  maxC  maxP  maxR  w_0  T_0  theta  delta  beta
+
+OR use make as follows:
+
+`git clone https://github.com/pkmandke/ttsa.git`
+`cd ./src`
+`make`
+
+Optional: To remove cluttered object files from the ./obj directory
+`make clean`
 
 * Author
 

@@ -34,7 +34,8 @@ void nttsa::TTSA::swapHomes(int *Sch, int i, int j){
 
 void nttsa::TTSA::swapRounds(int *Sch, int rk, int rl){
 /*
- * Swap ROunds rk and rl in the given schedule S.
+ * Swap Rounds rk and rl in the given schedule S.
+ *
  */
 
     int t = 1, temp;
@@ -155,35 +156,4 @@ bool nttsa::TTSA::partialSwapTeams(int *Sch, int ti, int tj, int r){
     free(swapd_rnds);
 
     return true;
-/*
-    int *swapd_teams = (int *)malloc(n * sizeof(int));
-    vector<int> to_swap; // Teams to swap
-    int next_rnd = r; // Next round to swap.
-
-    to_swap.push_back(r);
-    int ptr = 0, i;
-
-    for(i = 0; i < n; i++) swapd_teams[i] = 0;
-    
-    while(to_swap.size()){
-        
-        next_rnd = to_swap.back();
-        to_swap.pop_back();
-        int find_before_swap = Sch[next_rnd + tj * runs];
-        
-        swapd_teams[ptr++] = abs(Sch[next_rnd + ti * runs]);
-        int nxt = nttsa::find_pos(swapd_teams, n, abs(Sch[next_rnd + tj * runs])); 
-        if(nxt == -1){
-            for(i = 1; i <= runs; i++)
-            if(Sch[i + ti * runs] == Sch[next_rnd + tj * runs])
-                to_swap.push_back(i);
-        }
-        
-        nttsa::swapInts(&Sch[next_rnd + ti * runs], &Sch[next_rnd + tj * runs]); // Swap
-        nttsa::swapInts(&Sch[next_rnd + abs(Sch[next_rnd + ti * runs]) * runs], &Sch[next_rnd + abs(Sch[next_rnd + tj * runs]) * runs]); // Swap the correspoinding teams as well.
-    } // while ends
-
-
-    free(swapd_teams);*/
-        
 }

@@ -23,6 +23,7 @@ double nttsa::what_time_is_it()
                 return now.tv_sec + now.tv_nsec*1e-9;
 }
 
+
 void nttsa::display_S(int *S, int n, int runs){
 
     int i, j;
@@ -67,16 +68,11 @@ void nttsa::display_D(int *d, int n){
 
 void nttsa::remove_from_vector(std::vector<std::tuple<int, int> > & Q, std::tuple<int, int> pair){
    int i;
-    // std::cout << "Pair is " << std::get<0>(pair) << " " << std::get<1>(pair) << std::endl;
-    std::vector<std::tuple<int, int> >::iterator finder = std::find(Q.begin(), Q.end(), pair);
-    // for(i = 0; i < Q.size(); i++)
-    //    std::cout << "t w " << std::get<0>(Q[i]) << " " << std::get<1>(Q[i]) << std::endl;
-    if(finder != Q.end()) // Element found
+   
+   std::vector<std::tuple<int, int> >::iterator finder = std::find(Q.begin(), Q.end(), pair);
+   
+   if(finder != Q.end()) // Element found
         Q.erase(Q.begin() + std::distance(Q.begin(), finder));
-    // std::cout << "After " << std::endl;
-    // for(i = 0; i < Q.size(); i++)
-    //    std::cout << "t w " << std::get<0>(Q[i]) << " " << std::get<1>(Q[i]) << std::endl;
-   // exit(0);
 }
 
 void nttsa::swapInts(int *i, int *j){
