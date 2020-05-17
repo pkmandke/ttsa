@@ -19,4 +19,4 @@ $(ODIR)/$(PROG): $(OBJS)
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/**
+	rm -f $(ODIR)/*.o $(ODIR)/$(PROG)
